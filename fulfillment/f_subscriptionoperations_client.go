@@ -11,6 +11,7 @@ package fulfillment
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"net/http"
@@ -19,9 +20,23 @@ import (
 )
 
 // SubscriptionOperationsClient contains the methods for the SubscriptionOperations group.
-// Don't use this type directly, use a constructor function instead.
+// Don't use this type directly, use NewSubscriptionOperationsClient() instead.
 type SubscriptionOperationsClient struct {
-	internal *azcore.Client
+	internal *arm.Client
+}
+
+// NewSubscriptionOperationsClient creates a new instance of SubscriptionOperationsClient with the specified values.
+//   - credential - used to authorize requests. Usually a credential from azidentity.
+//   - options - pass nil to accept the default values.
+func NewSubscriptionOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*SubscriptionOperationsClient, error) {
+	cl, err := arm.NewClient(moduleName+".SubscriptionOperationsClient", moduleVersion, credential, options)
+	if err != nil {
+		return nil, err
+	}
+	client := &SubscriptionOperationsClient{
+	internal: cl,
+	}
+	return client, nil
 }
 
 // GetOperationStatus - Enables the publisher to track the status of the specified triggered async operation (such as Subscribe,
@@ -54,7 +69,7 @@ func (client *SubscriptionOperationsClient) getOperationStatusCreateRequest(ctx 
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations/{operationId}"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +123,7 @@ func (client *SubscriptionOperationsClient) ListOperations(ctx context.Context, 
 func (client *SubscriptionOperationsClient) listOperationsCreateRequest(ctx context.Context, subscriptionID string, options *SubscriptionOperationsClientListOperationsOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +177,7 @@ func (client *SubscriptionOperationsClient) updateOperationStatusCreateRequest(c
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations/{operationId}"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
-	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}

@@ -11,6 +11,7 @@ package fulfillment
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"net/http"
@@ -19,9 +20,23 @@ import (
 )
 
 // OperationsClient contains the methods for the FulfillmentOperations group.
-// Don't use this type directly, use a constructor function instead.
+// Don't use this type directly, use NewOperationsClient() instead.
 type OperationsClient struct {
-	internal *azcore.Client
+	internal *arm.Client
+}
+
+// NewOperationsClient creates a new instance of OperationsClient with the specified values.
+//   - credential - used to authorize requests. Usually a credential from azidentity.
+//   - options - pass nil to accept the default values.
+func NewOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*OperationsClient, error) {
+	cl, err := arm.NewClient(moduleName+".OperationsClient", moduleVersion, credential, options)
+	if err != nil {
+		return nil, err
+	}
+	client := &OperationsClient{
+	internal: cl,
+	}
+	return client, nil
 }
 
 // ActivateSubscription - Use this call to activate a subscription.
@@ -51,7 +66,7 @@ func (client *OperationsClient) ActivateSubscription(ctx context.Context, subscr
 func (client *OperationsClient) activateSubscriptionCreateRequest(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientActivateSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/activate"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +113,7 @@ func (client *OperationsClient) DeleteSubscription(ctx context.Context, subscrip
 func (client *OperationsClient) deleteSubscriptionCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientDeleteSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodDelete, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodDelete, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +166,7 @@ func (client *OperationsClient) GetSubscription(ctx context.Context, subscriptio
 func (client *OperationsClient) getSubscriptionCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientGetSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -205,7 +220,7 @@ func (client *OperationsClient) ListAvailablePlans(ctx context.Context, subscrip
 func (client *OperationsClient) listAvailablePlansCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientListAvailablePlansOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/listAvailablePlans"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -267,7 +282,7 @@ func (client *OperationsClient) NewListSubscriptionsPager(options *OperationsCli
 // listSubscriptionsCreateRequest creates the ListSubscriptions request.
 func (client *OperationsClient) listSubscriptionsCreateRequest(ctx context.Context, options *OperationsClientListSubscriptionsOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/"
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -329,7 +344,7 @@ func (client *OperationsClient) Resolve(ctx context.Context, xmsMarketplaceToken
 // resolveCreateRequest creates the Resolve request.
 func (client *OperationsClient) resolveCreateRequest(ctx context.Context, xmsMarketplaceToken string, options *OperationsClientResolveOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/resolve"
-	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +399,7 @@ func (client *OperationsClient) UpdateSubscription(ctx context.Context, subscrip
 func (client *OperationsClient) updateSubscriptionCreateRequest(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientUpdateSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(	host, urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
