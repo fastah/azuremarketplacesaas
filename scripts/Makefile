@@ -1,5 +1,5 @@
 build: codegen-metering codegen-fulfillment
-	
+
 codegen-metering:
 	autorest metering.md
 
