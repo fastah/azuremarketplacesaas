@@ -1,12 +1,14 @@
-# This are the CLI option set passed to AutoRest for Fulfillment API code generation
+# AutoRest for Marketplace SaaS Fulfillment API code generation
 
-Do you like it ? :)
+This markdown file can be passed as `autorest fulfillment.md`, and the block below will be automagically parsed as configuration for the AutoRest code generation step. 
 
 ``` yaml
 go: true
 input-file: '../commercial-marketplace-openapi/Microsoft.Marketplace.SaaS/2018-08-31/saasapi.v2.json'
-output-folder: '../'
+output-folder: '../fulfillment'
 file-prefix: 'f_'
+module-version: 0.1.0
+module: azurempsaas-fulfillment
 openapi-type: data-plane
 azure-arm: true
 license-header: MICROSOFT_MIT_NO_VERSION
