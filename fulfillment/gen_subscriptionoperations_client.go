@@ -12,7 +12,6 @@ import (
 	"context"
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"net/http"
@@ -21,23 +20,9 @@ import (
 )
 
 // SubscriptionOperationsClient contains the methods for the SubscriptionOperations group.
-// Don't use this type directly, use NewSubscriptionOperationsClient() instead.
+// Don't use this type directly, use a constructor function instead.
 type SubscriptionOperationsClient struct {
-	internal *arm.Client
-}
-
-// NewSubscriptionOperationsClient creates a new instance of SubscriptionOperationsClient with the specified values.
-//   - credential - used to authorize requests. Usually a credential from azidentity.
-//   - options - pass nil to accept the default values.
-func NewSubscriptionOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*SubscriptionOperationsClient, error) {
-	cl, err := arm.NewClient(moduleName, moduleVersion, credential, options)
-	if err != nil {
-		return nil, err
-	}
-	client := &SubscriptionOperationsClient{
-	internal: cl,
-	}
-	return client, nil
+	internal *azcore.Client
 }
 
 // GetOperationStatus - Enables the publisher to track the status of the specified triggered async operation (such as Subscribe,
@@ -49,10 +34,6 @@ func NewSubscriptionOperationsClient(credential azcore.TokenCredential, options 
 //     method.
 func (client *SubscriptionOperationsClient) GetOperationStatus(ctx context.Context, subscriptionID string, operationID string, options *SubscriptionOperationsClientGetOperationStatusOptions) (SubscriptionOperationsClientGetOperationStatusResponse, error) {
 	var err error
-	const operationName = "SubscriptionOperationsClient.GetOperationStatus"
-	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
-	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
-	defer func() { endSpan(err) }()
 	req, err := client.getOperationStatusCreateRequest(ctx, subscriptionID, operationID, options)
 	if err != nil {
 		return SubscriptionOperationsClientGetOperationStatusResponse{}, err
@@ -80,7 +61,7 @@ func (client *SubscriptionOperationsClient) getOperationStatusCreateRequest(ctx 
 		return nil, errors.New("parameter operationID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -114,10 +95,6 @@ func (client *SubscriptionOperationsClient) getOperationStatusHandleResponse(res
 //     method.
 func (client *SubscriptionOperationsClient) ListOperations(ctx context.Context, subscriptionID string, options *SubscriptionOperationsClientListOperationsOptions) (SubscriptionOperationsClientListOperationsResponse, error) {
 	var err error
-	const operationName = "SubscriptionOperationsClient.ListOperations"
-	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
-	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
-	defer func() { endSpan(err) }()
 	req, err := client.listOperationsCreateRequest(ctx, subscriptionID, options)
 	if err != nil {
 		return SubscriptionOperationsClientListOperationsResponse{}, err
@@ -141,7 +118,7 @@ func (client *SubscriptionOperationsClient) listOperationsCreateRequest(ctx cont
 		return nil, errors.New("parameter subscriptionID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
-	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(	host, urlPath))
 	if err != nil {
 		return nil, err
 	}
@@ -175,10 +152,6 @@ func (client *SubscriptionOperationsClient) listOperationsHandleResponse(resp *h
 //     method.
 func (client *SubscriptionOperationsClient) UpdateOperationStatus(ctx context.Context, subscriptionID string, operationID string, body UpdateOperation, options *SubscriptionOperationsClientUpdateOperationStatusOptions) (SubscriptionOperationsClientUpdateOperationStatusResponse, error) {
 	var err error
-	const operationName = "SubscriptionOperationsClient.UpdateOperationStatus"
-	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
-	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
-	defer func() { endSpan(err) }()
 	req, err := client.updateOperationStatusCreateRequest(ctx, subscriptionID, operationID, body, options)
 	if err != nil {
 		return SubscriptionOperationsClientUpdateOperationStatusResponse{}, err
@@ -205,7 +178,7 @@ func (client *SubscriptionOperationsClient) updateOperationStatusCreateRequest(c
 		return nil, errors.New("parameter operationID cannot be empty")
 	}
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
-	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(	host, urlPath))
 	if err != nil {
 		return nil, err
 	}

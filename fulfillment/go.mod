@@ -1,4 +1,4 @@
-module azurempsaas-fulfillment
+module github.com/fastah/azuremarketplacesaas/fulfillment
 
 go 1.18
 
