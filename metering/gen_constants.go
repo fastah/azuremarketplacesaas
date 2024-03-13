@@ -8,10 +8,7 @@
 
 package metering
 
-const (
-	moduleName = "metering"
-	moduleVersion = "v0.0.1"
-)
+const host = "https://marketplaceapi.microsoft.com/api"
 
 // APIVersion - The request must send the following parameters as a URL Encoded form; granttype - clientcredentials; resource
 // - 20e940b3-4c77-4b0b-9a53-9e16a1b010a7; clientid - AAD Registered App Client ID; client

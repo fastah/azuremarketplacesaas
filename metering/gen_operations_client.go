@@ -11,30 +11,15 @@ package metering
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"net/http"
 )
 
 // OperationsClient contains the methods for the MeteringOperations group.
-// Don't use this type directly, use NewOperationsClient() instead.
+// Don't use this type directly, use a constructor function instead.
 type OperationsClient struct {
-	internal *arm.Client
-}
-
-// NewOperationsClient creates a new instance of OperationsClient with the specified values.
-//   - credential - used to authorize requests. Usually a credential from azidentity.
-//   - options - pass nil to accept the default values.
-func NewOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*OperationsClient, error) {
-	cl, err := arm.NewClient(moduleName+".OperationsClient", moduleVersion, credential, options)
-	if err != nil {
-		return nil, err
-	}
-	client := &OperationsClient{
-	internal: cl,
-	}
-	return client, nil
+	internal *azcore.Client
 }
 
 // PostBatchUsageEvent - The batch usage event API allows you to emit usage events for more than one purchased entity at once.
@@ -66,20 +51,20 @@ func (client *OperationsClient) PostBatchUsageEvent(ctx context.Context, body Ba
 // postBatchUsageEventCreateRequest creates the PostBatchUsageEvent request.
 func (client *OperationsClient) postBatchUsageEventCreateRequest(ctx context.Context, body BatchUsageEvent, options *OperationsClientPostBatchUsageEventOptions) (*policy.Request, error) {
 	urlPath := "/batchUsageEvent"
-	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(	host, urlPath))
 	if err != nil {
 		return nil, err
 	}
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	if err := runtime.MarshalAsJSON(req, body); err != nil {
 	return nil, err
 }
@@ -122,20 +107,20 @@ func (client *OperationsClient) PostUsageEvent(ctx context.Context, body UsageEv
 // postUsageEventCreateRequest creates the PostUsageEvent request.
 func (client *OperationsClient) postUsageEventCreateRequest(ctx context.Context, body UsageEvent, options *OperationsClientPostUsageEventOptions) (*policy.Request, error) {
 	urlPath := "/usageEvent"
-	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
+	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(	host, urlPath))
 	if err != nil {
 		return nil, err
 	}
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	if err := runtime.MarshalAsJSON(req, body); err != nil {
 	return nil, err
 }

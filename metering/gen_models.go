@@ -19,29 +19,6 @@ type BatchUsageEventOkResponse struct {
 	Result []*UsageBatchEventOkMessage
 }
 
-// OperationsClientPostBatchUsageEventOptions contains the optional parameters for the OperationsClient.PostBatchUsageEvent
-// method.
-type OperationsClientPostBatchUsageEventOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientPostUsageEventOptions contains the optional parameters for the OperationsClient.PostUsageEvent method.
-type OperationsClientPostUsageEventOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
 type UsageBatchEventOkMessage struct {
 	// Dimension identifier
 	Dimension *string

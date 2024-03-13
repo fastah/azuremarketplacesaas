@@ -33,7 +33,7 @@ func (b *BatchUsageEvent) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "request":
 				err = unpopulate(val, "Request", &b.Request)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", b, err)
@@ -61,10 +61,10 @@ func (b *BatchUsageEventOkResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "count":
 				err = unpopulate(val, "Count", &b.Count)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "result":
 				err = unpopulate(val, "Result", &b.Result)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", b, err)
@@ -77,9 +77,9 @@ func (b *BatchUsageEventOkResponse) UnmarshalJSON(data []byte) error {
 func (u UsageBatchEventOkMessage) MarshalJSON() ([]byte, error) {
 	objectMap := make(map[string]any)
 	populate(objectMap, "dimension", u.Dimension)
-	populateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
+	populateDateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
 	populate(objectMap, "error", u.Error)
-	populateTimeRFC3339(objectMap, "messageTime", u.MessageTime)
+	populateDateTimeRFC3339(objectMap, "messageTime", u.MessageTime)
 	populate(objectMap, "planId", u.PlanID)
 	populate(objectMap, "quantity", u.Quantity)
 	populate(objectMap, "resourceId", u.ResourceID)
@@ -100,34 +100,34 @@ func (u *UsageBatchEventOkMessage) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "dimension":
 				err = unpopulate(val, "Dimension", &u.Dimension)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "effectiveStartTime":
-				err = unpopulateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
+			delete(rawMsg, key)
 		case "error":
 				err = unpopulate(val, "Error", &u.Error)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "messageTime":
-				err = unpopulateTimeRFC3339(val, "MessageTime", &u.MessageTime)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "MessageTime", &u.MessageTime)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &u.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &u.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceId":
 				err = unpopulate(val, "ResourceID", &u.ResourceID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceUri":
 				err = unpopulate(val, "ResourceURI", &u.ResourceURI)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "status":
 				err = unpopulate(val, "Status", &u.Status)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "usageEventId":
 				err = unpopulate(val, "UsageEventID", &u.UsageEventID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -140,7 +140,7 @@ func (u *UsageBatchEventOkMessage) UnmarshalJSON(data []byte) error {
 func (u UsageEvent) MarshalJSON() ([]byte, error) {
 	objectMap := make(map[string]any)
 	populate(objectMap, "dimension", u.Dimension)
-	populateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
+	populateDateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
 	populate(objectMap, "planId", u.PlanID)
 	populate(objectMap, "quantity", u.Quantity)
 	populate(objectMap, "resourceId", u.ResourceID)
@@ -159,22 +159,22 @@ func (u *UsageEvent) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "dimension":
 				err = unpopulate(val, "Dimension", &u.Dimension)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "effectiveStartTime":
-				err = unpopulateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &u.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &u.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceId":
 				err = unpopulate(val, "ResourceID", &u.ResourceID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceUri":
 				err = unpopulate(val, "ResourceURI", &u.ResourceURI)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -204,16 +204,16 @@ func (u *UsageEventBadRequestResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "code":
 				err = unpopulate(val, "Code", &u.Code)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "details":
 				err = unpopulate(val, "Details", &u.Details)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "message":
 				err = unpopulate(val, "Message", &u.Message)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "target":
 				err = unpopulate(val, "Target", &u.Target)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -242,13 +242,13 @@ func (u *UsageEventBadRequestResponseDetail) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "code":
 				err = unpopulate(val, "Code", &u.Code)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "message":
 				err = unpopulate(val, "Message", &u.Message)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "target":
 				err = unpopulate(val, "Target", &u.Target)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -277,13 +277,13 @@ func (u *UsageEventConflictResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "additionalInfo":
 				err = unpopulate(val, "AdditionalInfo", &u.AdditionalInfo)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "code":
 				err = unpopulate(val, "Code", &u.Code)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "message":
 				err = unpopulate(val, "Message", &u.Message)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -310,7 +310,7 @@ func (u *UsageEventConflictResponseAdditionalInfo) UnmarshalJSON(data []byte) er
 		switch key {
 		case "acceptedMessage":
 				err = unpopulate(val, "AcceptedMessage", &u.AcceptedMessage)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -323,8 +323,8 @@ func (u *UsageEventConflictResponseAdditionalInfo) UnmarshalJSON(data []byte) er
 func (u UsageEventOkResponse) MarshalJSON() ([]byte, error) {
 	objectMap := make(map[string]any)
 	populate(objectMap, "dimension", u.Dimension)
-	populateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
-	populateTimeRFC3339(objectMap, "messageTime", u.MessageTime)
+	populateDateTimeRFC3339(objectMap, "effectiveStartTime", u.EffectiveStartTime)
+	populateDateTimeRFC3339(objectMap, "messageTime", u.MessageTime)
 	populate(objectMap, "planId", u.PlanID)
 	populate(objectMap, "quantity", u.Quantity)
 	populate(objectMap, "resourceId", u.ResourceID)
@@ -345,31 +345,31 @@ func (u *UsageEventOkResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "dimension":
 				err = unpopulate(val, "Dimension", &u.Dimension)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "effectiveStartTime":
-				err = unpopulateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "EffectiveStartTime", &u.EffectiveStartTime)
+			delete(rawMsg, key)
 		case "messageTime":
-				err = unpopulateTimeRFC3339(val, "MessageTime", &u.MessageTime)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "MessageTime", &u.MessageTime)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &u.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &u.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceId":
 				err = unpopulate(val, "ResourceID", &u.ResourceID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "resourceUri":
 				err = unpopulate(val, "ResourceURI", &u.ResourceURI)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "status":
 				err = unpopulate(val, "Status", &u.Status)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "usageEventId":
 				err = unpopulate(val, "UsageEventID", &u.UsageEventID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -389,7 +389,7 @@ func populate(m map[string]any, k string, v any) {
 }
 
 func unpopulate(data json.RawMessage, fn string, v any) error {
-	if data == nil {
+	if data == nil || string(data) == "null" {
 		return nil
 	}
 	if err := json.Unmarshal(data, v); err != nil {
