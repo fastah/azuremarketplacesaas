@@ -10,6 +10,7 @@ package fulfillment
 
 import (
 	"context"
+	"errors"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
@@ -29,7 +30,7 @@ type SubscriptionOperationsClient struct {
 //   - credential - used to authorize requests. Usually a credential from azidentity.
 //   - options - pass nil to accept the default values.
 func NewSubscriptionOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*SubscriptionOperationsClient, error) {
-	cl, err := arm.NewClient(moduleName+".SubscriptionOperationsClient", moduleVersion, credential, options)
+	cl, err := arm.NewClient(moduleName, moduleVersion, credential, options)
 	if err != nil {
 		return nil, err
 	}
@@ -48,6 +49,10 @@ func NewSubscriptionOperationsClient(credential azcore.TokenCredential, options 
 //     method.
 func (client *SubscriptionOperationsClient) GetOperationStatus(ctx context.Context, subscriptionID string, operationID string, options *SubscriptionOperationsClientGetOperationStatusOptions) (SubscriptionOperationsClientGetOperationStatusResponse, error) {
 	var err error
+	const operationName = "SubscriptionOperationsClient.GetOperationStatus"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.getOperationStatusCreateRequest(ctx, subscriptionID, operationID, options)
 	if err != nil {
 		return SubscriptionOperationsClientGetOperationStatusResponse{}, err
@@ -67,7 +72,13 @@ func (client *SubscriptionOperationsClient) GetOperationStatus(ctx context.Conte
 // getOperationStatusCreateRequest creates the GetOperationStatus request.
 func (client *SubscriptionOperationsClient) getOperationStatusCreateRequest(ctx context.Context, subscriptionID string, operationID string, options *SubscriptionOperationsClientGetOperationStatusOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations/{operationId}"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
+	if operationID == "" {
+		return nil, errors.New("parameter operationID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -76,13 +87,13 @@ func (client *SubscriptionOperationsClient) getOperationStatusCreateRequest(ctx 
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -103,6 +114,10 @@ func (client *SubscriptionOperationsClient) getOperationStatusHandleResponse(res
 //     method.
 func (client *SubscriptionOperationsClient) ListOperations(ctx context.Context, subscriptionID string, options *SubscriptionOperationsClientListOperationsOptions) (SubscriptionOperationsClientListOperationsResponse, error) {
 	var err error
+	const operationName = "SubscriptionOperationsClient.ListOperations"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.listOperationsCreateRequest(ctx, subscriptionID, options)
 	if err != nil {
 		return SubscriptionOperationsClientListOperationsResponse{}, err
@@ -122,6 +137,9 @@ func (client *SubscriptionOperationsClient) ListOperations(ctx context.Context, 
 // listOperationsCreateRequest creates the ListOperations request.
 func (client *SubscriptionOperationsClient) listOperationsCreateRequest(ctx context.Context, subscriptionID string, options *SubscriptionOperationsClientListOperationsOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -130,13 +148,13 @@ func (client *SubscriptionOperationsClient) listOperationsCreateRequest(ctx cont
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -157,6 +175,10 @@ func (client *SubscriptionOperationsClient) listOperationsHandleResponse(resp *h
 //     method.
 func (client *SubscriptionOperationsClient) UpdateOperationStatus(ctx context.Context, subscriptionID string, operationID string, body UpdateOperation, options *SubscriptionOperationsClientUpdateOperationStatusOptions) (SubscriptionOperationsClientUpdateOperationStatusResponse, error) {
 	var err error
+	const operationName = "SubscriptionOperationsClient.UpdateOperationStatus"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.updateOperationStatusCreateRequest(ctx, subscriptionID, operationID, body, options)
 	if err != nil {
 		return SubscriptionOperationsClientUpdateOperationStatusResponse{}, err
@@ -175,7 +197,13 @@ func (client *SubscriptionOperationsClient) UpdateOperationStatus(ctx context.Co
 // updateOperationStatusCreateRequest creates the UpdateOperationStatus request.
 func (client *SubscriptionOperationsClient) updateOperationStatusCreateRequest(ctx context.Context, subscriptionID string, operationID string, body UpdateOperation, options *SubscriptionOperationsClientUpdateOperationStatusOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/operations/{operationId}"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
+	if operationID == "" {
+		return nil, errors.New("parameter operationID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{operationId}", url.PathEscape(operationID))
 	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -184,11 +212,11 @@ func (client *SubscriptionOperationsClient) updateOperationStatusCreateRequest(c
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
+	}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
 	}
 	if err := runtime.MarshalAsJSON(req, body); err != nil {
 	return nil, err

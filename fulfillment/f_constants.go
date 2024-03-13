@@ -9,8 +9,8 @@
 package fulfillment
 
 const (
-	moduleName = "fulfillment"
-	moduleVersion = "v0.0.1"
+	moduleName = "azurempsaas-fulfillment"
+	moduleVersion = "v0.1.0"
 )
 
 // APIVersion - The request must send the following parameters as a URL Encoded form; granttype - clientcredentials; resource

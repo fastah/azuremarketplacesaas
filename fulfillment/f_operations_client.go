@@ -10,6 +10,7 @@ package fulfillment
 
 import (
 	"context"
+	"errors"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
@@ -29,7 +30,7 @@ type OperationsClient struct {
 //   - credential - used to authorize requests. Usually a credential from azidentity.
 //   - options - pass nil to accept the default values.
 func NewOperationsClient(credential azcore.TokenCredential, options *arm.ClientOptions) (*OperationsClient, error) {
-	cl, err := arm.NewClient(moduleName+".OperationsClient", moduleVersion, credential, options)
+	cl, err := arm.NewClient(moduleName, moduleVersion, credential, options)
 	if err != nil {
 		return nil, err
 	}
@@ -47,6 +48,10 @@ func NewOperationsClient(credential azcore.TokenCredential, options *arm.ClientO
 //     method.
 func (client *OperationsClient) ActivateSubscription(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientActivateSubscriptionOptions) (OperationsClientActivateSubscriptionResponse, error) {
 	var err error
+	const operationName = "OperationsClient.ActivateSubscription"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.activateSubscriptionCreateRequest(ctx, subscriptionID, body, options)
 	if err != nil {
 		return OperationsClientActivateSubscriptionResponse{}, err
@@ -65,6 +70,9 @@ func (client *OperationsClient) ActivateSubscription(ctx context.Context, subscr
 // activateSubscriptionCreateRequest creates the ActivateSubscription request.
 func (client *OperationsClient) activateSubscriptionCreateRequest(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientActivateSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/activate"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -73,11 +81,11 @@ func (client *OperationsClient) activateSubscriptionCreateRequest(ctx context.Co
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
+	}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
 	}
 	if err := runtime.MarshalAsJSON(req, body); err != nil {
 	return nil, err
@@ -93,6 +101,10 @@ func (client *OperationsClient) activateSubscriptionCreateRequest(ctx context.Co
 //     method.
 func (client *OperationsClient) DeleteSubscription(ctx context.Context, subscriptionID string, options *OperationsClientDeleteSubscriptionOptions) (OperationsClientDeleteSubscriptionResponse, error) {
 	var err error
+	const operationName = "OperationsClient.DeleteSubscription"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.deleteSubscriptionCreateRequest(ctx, subscriptionID, options)
 	if err != nil {
 		return OperationsClientDeleteSubscriptionResponse{}, err
@@ -112,6 +124,9 @@ func (client *OperationsClient) DeleteSubscription(ctx context.Context, subscrip
 // deleteSubscriptionCreateRequest creates the DeleteSubscription request.
 func (client *OperationsClient) deleteSubscriptionCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientDeleteSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodDelete, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -120,11 +135,11 @@ func (client *OperationsClient) deleteSubscriptionCreateRequest(ctx context.Cont
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
+	}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
 	}
 	return req, nil
 }
@@ -146,6 +161,10 @@ func (client *OperationsClient) deleteSubscriptionHandleResponse(resp *http.Resp
 //     method.
 func (client *OperationsClient) GetSubscription(ctx context.Context, subscriptionID string, options *OperationsClientGetSubscriptionOptions) (OperationsClientGetSubscriptionResponse, error) {
 	var err error
+	const operationName = "OperationsClient.GetSubscription"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.getSubscriptionCreateRequest(ctx, subscriptionID, options)
 	if err != nil {
 		return OperationsClientGetSubscriptionResponse{}, err
@@ -165,6 +184,9 @@ func (client *OperationsClient) GetSubscription(ctx context.Context, subscriptio
 // getSubscriptionCreateRequest creates the GetSubscription request.
 func (client *OperationsClient) getSubscriptionCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientGetSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -173,13 +195,13 @@ func (client *OperationsClient) getSubscriptionCreateRequest(ctx context.Context
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -200,6 +222,10 @@ func (client *OperationsClient) getSubscriptionHandleResponse(resp *http.Respons
 //     method.
 func (client *OperationsClient) ListAvailablePlans(ctx context.Context, subscriptionID string, options *OperationsClientListAvailablePlansOptions) (OperationsClientListAvailablePlansResponse, error) {
 	var err error
+	const operationName = "OperationsClient.ListAvailablePlans"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.listAvailablePlansCreateRequest(ctx, subscriptionID, options)
 	if err != nil {
 		return OperationsClientListAvailablePlansResponse{}, err
@@ -219,6 +245,9 @@ func (client *OperationsClient) ListAvailablePlans(ctx context.Context, subscrip
 // listAvailablePlansCreateRequest creates the ListAvailablePlans request.
 func (client *OperationsClient) listAvailablePlansCreateRequest(ctx context.Context, subscriptionID string, options *OperationsClientListAvailablePlansOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}/listAvailablePlans"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -227,13 +256,13 @@ func (client *OperationsClient) listAvailablePlansCreateRequest(ctx context.Cont
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -257,25 +286,20 @@ func (client *OperationsClient) NewListSubscriptionsPager(options *OperationsCli
 			return page.NextLink != nil && len(*page.NextLink) > 0
 		},
 		Fetcher: func(ctx context.Context, page *OperationsClientListSubscriptionsResponse) (OperationsClientListSubscriptionsResponse, error) {
-			var req *policy.Request
-			var err error
-			if page == nil {
-				req, err = client.listSubscriptionsCreateRequest(ctx, options)
-			} else {
-				req, err = runtime.NewRequest(ctx, http.MethodGet, *page.NextLink)
+		ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, "OperationsClient.NewListSubscriptionsPager")
+			nextLink := ""
+			if page != nil {
+				nextLink = *page.NextLink
 			}
+			resp, err := runtime.FetcherForNextLink(ctx, client.internal.Pipeline(), nextLink, func(ctx context.Context) (*policy.Request, error) {
+				return client.listSubscriptionsCreateRequest(ctx, options)
+			}, nil)
 			if err != nil {
 				return OperationsClientListSubscriptionsResponse{}, err
-			}
-			resp, err := client.internal.Pipeline().Do(req)
-			if err != nil {
-				return OperationsClientListSubscriptionsResponse{}, err
-			}
-			if !runtime.HasStatusCode(resp, http.StatusOK) {
-				return OperationsClientListSubscriptionsResponse{}, runtime.NewResponseError(resp)
 			}
 			return client.listSubscriptionsHandleResponse(resp)
-		},
+			},
+		Tracer: client.internal.Tracer(),
 	})
 }
 
@@ -292,13 +316,13 @@ func (client *OperationsClient) listSubscriptionsCreateRequest(ctx context.Conte
 		reqQP.Set("continuationToken", *options.ContinuationToken)
 	}
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -325,6 +349,10 @@ func (client *OperationsClient) listSubscriptionsHandleResponse(resp *http.Respo
 //   - options - OperationsClientResolveOptions contains the optional parameters for the OperationsClient.Resolve method.
 func (client *OperationsClient) Resolve(ctx context.Context, xmsMarketplaceToken string, options *OperationsClientResolveOptions) (OperationsClientResolveResponse, error) {
 	var err error
+	const operationName = "OperationsClient.Resolve"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.resolveCreateRequest(ctx, xmsMarketplaceToken, options)
 	if err != nil {
 		return OperationsClientResolveResponse{}, err
@@ -351,14 +379,14 @@ func (client *OperationsClient) resolveCreateRequest(ctx context.Context, xmsMar
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
+	req.Raw().Header["Accept"] = []string{"application/json"}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
 	}
 	req.Raw().Header["x-ms-marketplace-token"] = []string{xmsMarketplaceToken}
-	req.Raw().Header["Accept"] = []string{"application/json"}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
+	}
 	return req, nil
 }
 
@@ -379,6 +407,10 @@ func (client *OperationsClient) resolveHandleResponse(resp *http.Response) (Oper
 //     method.
 func (client *OperationsClient) UpdateSubscription(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientUpdateSubscriptionOptions) (OperationsClientUpdateSubscriptionResponse, error) {
 	var err error
+	const operationName = "OperationsClient.UpdateSubscription"
+	ctx = context.WithValue(ctx, runtime.CtxAPINameKey{}, operationName)
+	ctx, endSpan := runtime.StartSpan(ctx, operationName, client.internal.Tracer(), nil)
+	defer func() { endSpan(err) }()
 	req, err := client.updateSubscriptionCreateRequest(ctx, subscriptionID, body, options)
 	if err != nil {
 		return OperationsClientUpdateSubscriptionResponse{}, err
@@ -398,6 +430,9 @@ func (client *OperationsClient) UpdateSubscription(ctx context.Context, subscrip
 // updateSubscriptionCreateRequest creates the UpdateSubscription request.
 func (client *OperationsClient) updateSubscriptionCreateRequest(ctx context.Context, subscriptionID string, body SubscriberPlan, options *OperationsClientUpdateSubscriptionOptions) (*policy.Request, error) {
 	urlPath := "/saas/subscriptions/{subscriptionId}"
+	if subscriptionID == "" {
+		return nil, errors.New("parameter subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(subscriptionID))
 	req, err := runtime.NewRequest(ctx, http.MethodPatch, runtime.JoinPaths(client.internal.Endpoint(), urlPath))
 	if err != nil {
@@ -406,11 +441,11 @@ func (client *OperationsClient) updateSubscriptionCreateRequest(ctx context.Cont
 	reqQP := req.Raw().URL.Query()
 	reqQP.Set("api-version", "2018-08-31")
 	req.Raw().URL.RawQuery = reqQP.Encode()
-	if options != nil && options.RequestID != nil {
-		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
-	}
 	if options != nil && options.CorrelationID != nil {
 		req.Raw().Header["x-ms-correlationid"] = []string{*options.CorrelationID}
+	}
+	if options != nil && options.RequestID != nil {
+		req.Raw().Header["x-ms-requestid"] = []string{*options.RequestID}
 	}
 	if err := runtime.MarshalAsJSON(req, body); err != nil {
 	return nil, err

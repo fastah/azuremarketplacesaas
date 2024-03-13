@@ -36,16 +36,16 @@ func (a *AADIdentifier) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "emailId":
 				err = unpopulate(val, "EmailID", &a.EmailID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "objectId":
 				err = unpopulate(val, "ObjectID", &a.ObjectID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "puid":
 				err = unpopulate(val, "Puid", &a.Puid)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "tenantId":
 				err = unpopulate(val, "TenantID", &a.TenantID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", a, err)
@@ -72,7 +72,7 @@ func (i *InternalServerErrorResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "error":
 				err = unpopulate(val, "Error", &i.Error)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", i, err)
@@ -100,10 +100,10 @@ func (i *InternalServerErrorResponseError) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "code":
 				err = unpopulate(val, "Code", &i.Code)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "message":
 				err = unpopulate(val, "Message", &i.Message)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", i, err)
@@ -134,19 +134,19 @@ func (m *MeteringDimension) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "currency":
 				err = unpopulate(val, "Currency", &m.Currency)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "displayName":
 				err = unpopulate(val, "DisplayName", &m.DisplayName)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "id":
 				err = unpopulate(val, "ID", &m.ID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "pricePerUnit":
 				err = unpopulate(val, "PricePerUnit", &m.PricePerUnit)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "unitOfMeasure":
 				err = unpopulate(val, "UnitOfMeasure", &m.UnitOfMeasure)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", m, err)
@@ -174,10 +174,10 @@ func (m *MeteringedQuantityIncluded) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "dimensionId":
 				err = unpopulate(val, "DimensionID", &m.DimensionID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "units":
 				err = unpopulate(val, "Units", &m.Units)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", m, err)
@@ -198,7 +198,7 @@ func (o Operation) MarshalJSON() ([]byte, error) {
 	populate(objectMap, "quantity", o.Quantity)
 	populate(objectMap, "status", o.Status)
 	populate(objectMap, "subscriptionId", o.SubscriptionID)
-	populateTimeRFC3339(objectMap, "timeStamp", o.TimeStamp)
+	populateDateTimeRFC3339(objectMap, "timeStamp", o.TimeStamp)
 	return json.Marshal(objectMap)
 }
 
@@ -213,34 +213,34 @@ func (o *Operation) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "action":
 				err = unpopulate(val, "Action", &o.Action)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "activityId":
 				err = unpopulate(val, "ActivityID", &o.ActivityID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "id":
 				err = unpopulate(val, "ID", &o.ID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "offerId":
 				err = unpopulate(val, "OfferID", &o.OfferID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &o.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "publisherId":
 				err = unpopulate(val, "PublisherID", &o.PublisherID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &o.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "status":
 				err = unpopulate(val, "Status", &o.Status)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "subscriptionId":
 				err = unpopulate(val, "SubscriptionID", &o.SubscriptionID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "timeStamp":
-				err = unpopulateTimeRFC3339(val, "TimeStamp", &o.TimeStamp)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "TimeStamp", &o.TimeStamp)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", o, err)
@@ -267,7 +267,7 @@ func (o *OperationList) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "operations":
 				err = unpopulate(val, "Operations", &o.Operations)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", o, err)
@@ -302,31 +302,31 @@ func (p *Plan) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "description":
 				err = unpopulate(val, "Description", &p.Description)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "displayName":
 				err = unpopulate(val, "DisplayName", &p.DisplayName)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "hasFreeTrials":
 				err = unpopulate(val, "HasFreeTrials", &p.HasFreeTrials)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "isPricePerSeat":
 				err = unpopulate(val, "IsPricePerSeat", &p.IsPricePerSeat)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "isPrivate":
 				err = unpopulate(val, "IsPrivate", &p.IsPrivate)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "isStopSell":
 				err = unpopulate(val, "IsStopSell", &p.IsStopSell)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "market":
 				err = unpopulate(val, "Market", &p.Market)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "planComponents":
 				err = unpopulate(val, "PlanComponents", &p.PlanComponents)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &p.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", p, err)
@@ -354,10 +354,10 @@ func (p *PlanComponents) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "meteringDimensions":
 				err = unpopulate(val, "MeteringDimensions", &p.MeteringDimensions)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "recurrentBillingTerms":
 				err = unpopulate(val, "RecurrentBillingTerms", &p.RecurrentBillingTerms)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", p, err)
@@ -388,19 +388,19 @@ func (r *RecurrentBillingTerm) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "currency":
 				err = unpopulate(val, "Currency", &r.Currency)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "meteredQuantityIncluded":
 				err = unpopulate(val, "MeteredQuantityIncluded", &r.MeteredQuantityIncluded)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "price":
 				err = unpopulate(val, "Price", &r.Price)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "termDescription":
 				err = unpopulate(val, "TermDescription", &r.TermDescription)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "termUnit":
 				err = unpopulate(val, "TermUnit", &r.TermUnit)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", r, err)
@@ -432,22 +432,22 @@ func (r *ResolvedSubscription) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "id":
 				err = unpopulate(val, "ID", &r.ID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "offerId":
 				err = unpopulate(val, "OfferID", &r.OfferID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &r.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &r.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "subscription":
 				err = unpopulate(val, "Subscription", &r.Subscription)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "subscriptionName":
 				err = unpopulate(val, "SubscriptionName", &r.SubscriptionName)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", r, err)
@@ -475,10 +475,10 @@ func (s *SubscriberPlan) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "planId":
 				err = unpopulate(val, "PlanID", &s.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &s.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", s, err)
@@ -493,7 +493,7 @@ func (s Subscription) MarshalJSON() ([]byte, error) {
 	populate(objectMap, "allowedCustomerOperations", s.AllowedCustomerOperations)
 	populate(objectMap, "autoRenew", s.AutoRenew)
 	populate(objectMap, "beneficiary", s.Beneficiary)
-	populateTimeRFC3339(objectMap, "created", s.Created)
+	populateDateTimeRFC3339(objectMap, "created", s.Created)
 	populate(objectMap, "fulfillmentId", s.FulfillmentID)
 	populate(objectMap, "id", s.ID)
 	populate(objectMap, "isFreeTrial", s.IsFreeTrial)
@@ -524,64 +524,64 @@ func (s *Subscription) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "allowedCustomerOperations":
 				err = unpopulate(val, "AllowedCustomerOperations", &s.AllowedCustomerOperations)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "autoRenew":
 				err = unpopulate(val, "AutoRenew", &s.AutoRenew)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "beneficiary":
 				err = unpopulate(val, "Beneficiary", &s.Beneficiary)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "created":
-				err = unpopulateTimeRFC3339(val, "Created", &s.Created)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "Created", &s.Created)
+			delete(rawMsg, key)
 		case "fulfillmentId":
 				err = unpopulate(val, "FulfillmentID", &s.FulfillmentID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "id":
 				err = unpopulate(val, "ID", &s.ID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "isFreeTrial":
 				err = unpopulate(val, "IsFreeTrial", &s.IsFreeTrial)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "isTest":
 				err = unpopulate(val, "IsTest", &s.IsTest)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "name":
 				err = unpopulate(val, "Name", &s.Name)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "offerId":
 				err = unpopulate(val, "OfferID", &s.OfferID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "planId":
 				err = unpopulate(val, "PlanID", &s.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "publisherId":
 				err = unpopulate(val, "PublisherID", &s.PublisherID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "purchaser":
 				err = unpopulate(val, "Purchaser", &s.Purchaser)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &s.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "saasSubscriptionStatus":
 				err = unpopulate(val, "SaasSubscriptionStatus", &s.SaasSubscriptionStatus)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "sandboxType":
 				err = unpopulate(val, "SandboxType", &s.SandboxType)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "sessionId":
 				err = unpopulate(val, "SessionID", &s.SessionID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "sessionMode":
 				err = unpopulate(val, "SessionMode", &s.SessionMode)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "storeFront":
 				err = unpopulate(val, "StoreFront", &s.StoreFront)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "term":
 				err = unpopulate(val, "Term", &s.Term)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", s, err)
@@ -608,7 +608,7 @@ func (s *SubscriptionPlans) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "plans":
 				err = unpopulate(val, "Plans", &s.Plans)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", s, err)
@@ -620,8 +620,8 @@ func (s *SubscriptionPlans) UnmarshalJSON(data []byte) error {
 // MarshalJSON implements the json.Marshaller interface for type SubscriptionTerm.
 func (s SubscriptionTerm) MarshalJSON() ([]byte, error) {
 	objectMap := make(map[string]any)
-	populateTimeRFC3339(objectMap, "endDate", s.EndDate)
-	populateTimeRFC3339(objectMap, "startDate", s.StartDate)
+	populateDateTimeRFC3339(objectMap, "endDate", s.EndDate)
+	populateDateTimeRFC3339(objectMap, "startDate", s.StartDate)
 	populate(objectMap, "termUnit", s.TermUnit)
 	return json.Marshal(objectMap)
 }
@@ -636,14 +636,14 @@ func (s *SubscriptionTerm) UnmarshalJSON(data []byte) error {
 		var err error
 		switch key {
 		case "endDate":
-				err = unpopulateTimeRFC3339(val, "EndDate", &s.EndDate)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "EndDate", &s.EndDate)
+			delete(rawMsg, key)
 		case "startDate":
-				err = unpopulateTimeRFC3339(val, "StartDate", &s.StartDate)
-				delete(rawMsg, key)
+				err = unpopulateDateTimeRFC3339(val, "StartDate", &s.StartDate)
+			delete(rawMsg, key)
 		case "termUnit":
 				err = unpopulate(val, "TermUnit", &s.TermUnit)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", s, err)
@@ -671,10 +671,10 @@ func (s *SubscriptionsResponse) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "@nextLink":
 				err = unpopulate(val, "NextLink", &s.NextLink)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "subscriptions":
 				err = unpopulate(val, "Subscriptions", &s.Subscriptions)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", s, err)
@@ -703,13 +703,13 @@ func (u *UpdateOperation) UnmarshalJSON(data []byte) error {
 		switch key {
 		case "planId":
 				err = unpopulate(val, "PlanID", &u.PlanID)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "quantity":
 				err = unpopulate(val, "Quantity", &u.Quantity)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		case "status":
 				err = unpopulate(val, "Status", &u.Status)
-				delete(rawMsg, key)
+			delete(rawMsg, key)
 		}
 		if err != nil {
 			return fmt.Errorf("unmarshalling type %T: %v", u, err)
@@ -729,7 +729,7 @@ func populate(m map[string]any, k string, v any) {
 }
 
 func unpopulate(data json.RawMessage, fn string, v any) error {
-	if data == nil {
+	if data == nil || string(data) == "null" {
 		return nil
 	}
 	if err := json.Unmarshal(data, v); err != nil {

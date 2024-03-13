@@ -56,90 +56,6 @@ type OperationList struct {
 	Operations []*Operation
 }
 
-// OperationsClientActivateSubscriptionOptions contains the optional parameters for the OperationsClient.ActivateSubscription
-// method.
-type OperationsClientActivateSubscriptionOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientDeleteSubscriptionOptions contains the optional parameters for the OperationsClient.DeleteSubscription
-// method.
-type OperationsClientDeleteSubscriptionOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientGetSubscriptionOptions contains the optional parameters for the OperationsClient.GetSubscription method.
-type OperationsClientGetSubscriptionOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientListAvailablePlansOptions contains the optional parameters for the OperationsClient.ListAvailablePlans
-// method.
-type OperationsClientListAvailablePlansOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientListSubscriptionsOptions contains the optional parameters for the OperationsClient.NewListSubscriptionsPager
-// method.
-type OperationsClientListSubscriptionsOptions struct {
-	// Optional value, only used for ListSubscriptions.
-	ContinuationToken *string
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientResolveOptions contains the optional parameters for the OperationsClient.Resolve method.
-type OperationsClientResolveOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// OperationsClientUpdateSubscriptionOptions contains the optional parameters for the OperationsClient.UpdateSubscription
-// method.
-type OperationsClientUpdateSubscriptionOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
 type Plan struct {
 	Description *string
 	DisplayName *string
@@ -214,42 +130,6 @@ type Subscription struct {
 	SessionMode *SessionModeEnum
 	StoreFront *string
 	Term *SubscriptionTerm
-}
-
-// SubscriptionOperationsClientGetOperationStatusOptions contains the optional parameters for the SubscriptionOperationsClient.GetOperationStatus
-// method.
-type SubscriptionOperationsClientGetOperationStatusOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// SubscriptionOperationsClientListOperationsOptions contains the optional parameters for the SubscriptionOperationsClient.ListOperations
-// method.
-type SubscriptionOperationsClientListOperationsOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
-}
-
-// SubscriptionOperationsClientUpdateOperationStatusOptions contains the optional parameters for the SubscriptionOperationsClient.UpdateOperationStatus
-// method.
-type SubscriptionOperationsClientUpdateOperationStatusOptions struct {
-	// A unique string value for operation on the client. This parameter correlates all events from client operation with events
-// on the server side. If this value isn't provided, one will be generated and
-// provided in the response headers.
-	CorrelationID *string
-	// A unique string value for tracking the request from the client, preferably a GUID. If this value isn't provided, one will
-// be generated and provided in the response headers.
-	RequestID *string
 }
 
 type SubscriptionPlans struct {
