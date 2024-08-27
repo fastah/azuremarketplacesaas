@@ -5,7 +5,7 @@ SPECFILE_FULFILLMENT=./commercial-marketplace-openapi/Microsoft.Marketplace.SaaS
 # Use this to nuke your Autorest installation and install latest tool and language plugins
 autorest-go-update-with-reset: 
 	# You need to prefix sudo for the install globally command below.
-	npm install -g autorest
+	sudo npm install -g autorest
 	autorest --reset
 	autorest --go --help
 
