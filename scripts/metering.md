@@ -4,7 +4,6 @@ This markdown file can be passed as `autorest metering.md`, and the block below 
 
 ``` yaml
 go: true
-input-file: '../commercial-marketplace-openapi/Microsoft.Marketplace.Metering/2018-08-31/meteringapi.v1.json'
 output-folder: '../metering'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/metering

@@ -4,7 +4,6 @@ This markdown file can be passed as `autorest fulfillment.md`, and the block bel
 
 ``` yaml
 go: true
-input-file: '../commercial-marketplace-openapi/Microsoft.Marketplace.SaaS/2018-08-31/saasapi.v2.json'
 output-folder: '../fulfillment'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/fulfillment
