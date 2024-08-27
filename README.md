@@ -18,7 +18,7 @@ If your SaaS product doesn't need metering, you can of course skip the metering 
 
 ## Authorizing with Marketplace API endpoints
 
-Use the same Azure AD app registration that you have allow-listed in the Partner Center in your SaaS offer's technical configuration. You will need to provide the coresponding `client_id`, `client_secret`, and `tenant_id` via the supplied `env.sh` environment file. 
+Use the same Azure AD app registration that you have allow-listed in the Partner Center in your SaaS offer's technical configuration. You will need to provide the coresponding `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` via the supplied [env.sh](env.sh) environment file.
 
 ## Using the Fulfillment package
 
