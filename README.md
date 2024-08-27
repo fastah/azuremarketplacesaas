@@ -49,3 +49,7 @@ Allow autorest to install latest Go extension
 ```bash
 autorest --go --help
 ```
+
+### Authentication to a Marketplace API endpoint
+
+AutoRest's Go-specific generator doesn't appear to support generation of authorization code using `securityScheme` objects in the OpenAPI spec file, so we don't use any such capability: [Authentication configuration flags](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md). 
