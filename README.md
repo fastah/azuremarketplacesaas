@@ -27,3 +27,25 @@ See the [top-level guide to Fulfilment APIs](https://learn.microsoft.com/en-us/p
 
 ## Metering endpoint
 Carefully read Microsoft's [Marketplace metering service authentication strategies](https://learn.microsoft.com/en-us/partner-center/marketplace/marketplace-metering-service-authentication)
+
+## Updating Go client from OpenAPI spec
+### Submodule fetch from Microsoft's OpenAPI repo
+```bash
+git submodule update --init --recursive
+```
+
+### Install and Update AutoRest with Go extension
+Follow the steps on the [AutoRest installation page](https://github.com/Azure/autorest/blob/main/docs/readme.md)
+
+Install 
+```bash
+sudo npm install -g autorest
+```
+Purge all old Autorest and outdated extensions (careful!)
+```bash
+autorest --reset
+```
+Allow autorest to install latest Go extension
+```bash
+autorest --go --help
+```

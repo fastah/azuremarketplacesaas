@@ -8,6 +8,7 @@ input-file: '../commercial-marketplace-openapi/Microsoft.Marketplace.SaaS/2018-0
 output-folder: '../fulfillment'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/fulfillment
+module-version: '0.11.0'
 openapi-type: data-plane
 azure-arm: false
 license-header: MICROSOFT_MIT_NO_VERSION

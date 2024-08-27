@@ -8,6 +8,7 @@ input-file: '../commercial-marketplace-openapi/Microsoft.Marketplace.Metering/20
 output-folder: '../metering'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/metering
+module-version: '0.11.0'
 openapi-type: data-plane
 azure-arm: false
 license-header: MICROSOFT_MIT_NO_VERSION
