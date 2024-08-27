@@ -4,7 +4,7 @@ This markdown file can be passed as `autorest metering.md`, and the block below 
 
 ``` yaml
 go: true
-output-folder: '../metering'
+output-folder: './metering'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/metering
 module-version: '0.11.0'

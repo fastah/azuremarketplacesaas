@@ -4,7 +4,7 @@ This markdown file can be passed as `autorest fulfillment.md`, and the block bel
 
 ``` yaml
 go: true
-output-folder: '../fulfillment'
+output-folder: './fulfillment'
 file-prefix: 'gen_'
 module: github.com/fastah/azuremarketplacesaas/fulfillment
 module-version: '0.11.0'
