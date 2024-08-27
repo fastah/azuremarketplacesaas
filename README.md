@@ -28,6 +28,12 @@ See the `fulfillement` package's [fulfillment_test.go](fulfillment/fulfillment_t
 
 See the `metering` package's [metering_test.go](metering/metering_test.go) file for example on how to use the API, including authorization.
 
+Once you have set the Azure AD app credentials in the [env.sh](env.sh) file, use the supplied [Makefile](Makefile) target to run the example-cum-test. It simply calls `go test -v` under the hood after setting the environment variables.
+
+```bash
+make test-metering
+```
+
 ## Maintainers only: Updating the Go client from OpenAPI spec
 
 ### Submodule fetch from Microsoft's OpenAPI repo
