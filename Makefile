@@ -10,7 +10,7 @@ autorest-go-update-with-reset:
 	autorest --go --help
 
 test-metering:
-	source env.sh && go test -v metering/*.go -run=TestMeteringClient
+	source env.sh && cd metering && go test -v ./*.go -run=TestMeteringClient
 
 # Builds both the metering and fulfillment clients
 build: codegen-metering codegen-fulfillment
